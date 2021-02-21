@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 jsondata=`cat`
 intent=$(echo $jsondata | jq '.intent.name')
-#echo $intent  >> /profiles/en/isza/handle.log
+
 if [ $intent == '"GetTime"' ]
 then
 	cdate = $(date +"%c")
