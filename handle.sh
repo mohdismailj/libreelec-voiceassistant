@@ -25,20 +25,20 @@ fi
 
 if [ $intent == '"KodiMV"' ]
 then
-        curl -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"Player.Open","params":{ "item":{"directory":"/storage/Music Videos" }},"id":1}' http://kod>
+        curl -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"Player.Open","params":{ "item":{"directory":"/storage/Music Videos" }},"id":1}' http://kodi:@192.168.1.100:8080/jsonrpc
 fi
 
 if [ $intent == '"KodiMusic"' ]
 then
-        curl -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"Player.Open","params":{ "item":{"directory":"/storage/Music/E M Hanifa" }},"id":1}' http://kod>
+        curl -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"Player.Open","params":{ "item":{"directory":"/storage/Music" }},"id":1}' http://kodi:@192.168.1.100:8080/jsonrpc
 fi
 
 if [ $intent == '"KodiOff"' ]
 then
-        curl -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"System.Shutdown","id":1}' http://kod>
+        curl -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"System.Shutdown","id":1}' http://kodi:@192.168.1.100:8080/jsonrpc
 fi
 
 if [ $intent == '"KodiRestart"' ]
 then
-        curl -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"System.Reboot","id":1}' http://kod>
+        curl -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"System.Reboot","id":1}' http://kodi:@192.168.1.100:8080/jsonrpc
 fi
