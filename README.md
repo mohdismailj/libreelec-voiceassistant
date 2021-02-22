@@ -10,3 +10,6 @@ docker run -d -p 12101:12101 \
       rhasspy/rhasspy \
       --user-profiles /profiles \
       --profile en
+      
+/le/kodi-send --action="PlayerControl(Next)"
+
