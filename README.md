@@ -3,7 +3,7 @@
 docker run -d -p 12101:12101 \
       --name rhasspy \
       --restart unless-stopped \
-      --add-host="localhost:127.0.0.1" \
+      --add-host="connect.isza.tv:127.0.0.1" \
       -v "/storage/.config/rhasspy/profiles:/profiles" \
       -v "/etc/localtime:/etc/localtime:ro" \
       --device /dev/snd:/dev/snd \
