@@ -1,7 +1,6 @@
 # libreelec-voiceassistant
 ```
 docker run -d -p 12101:12101 --name rhasspy \
-      --network host \
       --restart unless-stopped \
       -v "/storage/.config/rhasspy/profiles:/profiles" \
       -v "/etc/localtime:/etc/localtime:ro" \
