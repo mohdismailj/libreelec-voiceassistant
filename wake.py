@@ -15,12 +15,12 @@ dialog = xbmcgui.Dialog().ok(__addonname__, line1, line2, line3)
 isPlayed=False
 
 if xbmc.Player().isPlaying():
- xmbc.PlayerControl(Play)
- isPlayed=True
+	xmbc.PlayerControl(Play)
+	isPlayed=True
 
-os.system("curl -X -P http://localhost/api/listen-for-command")
+os.system("curl -X POST http://localhost:12101/api/listen-for-command")
 
 dialog.close()
 
 if isPlayed:
- xmbc.PlayerControl(Play)
+	xmbc.PlayerControl(Play)
