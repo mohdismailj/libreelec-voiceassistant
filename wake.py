@@ -1,26 +1,17 @@
 import xbmc,xbmcgui 
 import os
-import xbmcaddon
-import xbmcgui
 
-__addon__ = xbmcaddon.Addon()
-__addonname__ = __addon__.getAddonInfo('name')
-
-line1 = "Listening..."
-line2 = ""
-line3 = ""
-
-dialog = xbmcgui.Dialog().ok(__addonname__, line1, line2, line3)
+dialog = xbmcgui.Dialog()
+notification = dialog.notification('Kodi', 'Listening...')
 
 isPlayed=False
 
 if xbmc.Player().isPlaying():
-	xbmc.PlayerControl(Play)
+	xbmc.executebuiltin('xbmc.PlayerControl(Play)')	
 	isPlayed=True
 
 os.system("curl -X POST http://localhost:12101/api/listen-for-command")
-
-dialog.close()
+xbmc.executebuiltin('Dialog.Close(all,true)')
 
 if isPlayed:
-	xbmc.PlayerControl(Play)
+	xbmc.executebuiltin('xbmc.PlayerControl(Play)')
