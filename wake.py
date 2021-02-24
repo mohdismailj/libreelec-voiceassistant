@@ -1,5 +1,16 @@
 import xbmc,xbmcgui 
 import os
+import xbmcaddon
+import xbmcgui
+
+__addon__ = xbmcaddon.Addon()
+__addonname__ = __addon__.getAddonInfo('name')
+
+line1 = "Listening..."
+line2 = ""
+line3 = ""
+
+dialog = xbmcgui.Dialog().ok(__addonname__, line1, line2, line3)
 
 isPlayed=False
 
@@ -8,6 +19,8 @@ if xbmc.Player().isPlaying():
  isPlayed=True
 
 os.system("curl -X -P http://localhost/api/listen-for-command")
+
+dialog.close()
 
 if isPlayed:
  xmbc.PlayerControl(Play)
