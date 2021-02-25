@@ -1,23 +1,25 @@
 #!/usr/bin/env bash
 jsondata=`cat`
 
-#echo $jsondata  >> /profiles/en/isza/handle.log
+echo $jsondata  >> /profiles/en/isza/handle.log
 
-#echo -e "\nEND\n\n"  >> /profiles/en/isza/handle.log
+echo -e "\nEND\n\n"  >> /profiles/en/isza/handle.log
 
 intent=$(echo $jsondata | jq '.intent.name')
-
 
 if [ $intent == '"KodiPlay"' ]
 then
 	curl -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"Player.PlayPause","params":{"playerid":1},"id":1}' http://kodi:@192.168.1.100:8080/jsonrpc
-
 fi
 
 if [ $intent == '"KodiNext"' ]
 then
 	curl -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"Player.Move","params":{"playerid":1,"direction":"right"},"id":1}' http://kodi:@192.168.1.100:8080/jsonrpc
 
+	echo $jsondata | jq --arg text "This is a test" '. + {"speech": { "text" : $text }}'
+	echo $jsondata
+	echo $jsondata  >> /profiles/en/isza/handle.log
+	echo -e "\nEND\n\n"  >> /profiles/en/isza/handle.log
 fi
 
 if [ $intent == '"KodiPrevious"' ]
