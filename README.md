@@ -17,3 +17,9 @@ docker run -d -p 12101:12101 --name rhasspy \
       --profile en
 ```
 
+Configure & Testing
+
+[VIDEO Demonstration](https://www.youtube.com/channel/UCW3m7xZHa9KA2IqaYUk21aw)
+
+
+
