@@ -1,5 +1,10 @@
 # libreelec-voiceassistant
 
+Install Docker Add-ons in KODI
+```
+SYSTEM > Add-ons > Install from repository > LibreELEC Add-ons > Services > Docker
+```
+
 Installing Rhasspy
 ```
 docker pull rhasspy/rhasspy
