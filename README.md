@@ -1,4 +1,4 @@
-# Control Kodi with Voice on LibreELEC using Rhasspy - fully offline set of voice assistant services
+# Control Kodi with Voice on LibreELEC using Rhasspy
 
 Install Docker Add-ons in KODI
 ```
