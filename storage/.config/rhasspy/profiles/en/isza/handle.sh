@@ -3,24 +3,30 @@ jsondata=`cat`
 
 function speak()
 {
-	#echo $jsondata | jq --arg v "$1" '. + {"speech": { "text" : $v }}'	
-	curl -X POST -d "$1" http://iszaTV.local:12101/api/text-to-speech
+	curl -X POST -d "$1" http://192.168.1.100:12101/api/text-to-speech
 }
 
 function playerid()
 {
-	playerid=$( curl -s -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"Player.GetActivePlayers","id":1}' http://kodi:@iszaTV.local:8080/jsonrpc | jq '.result[0] .playerid')
+	playerid=$( curl -s -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"Player.GetActivePlayers","id":1}' http://kodi:@192.168.1.100:8080/jsonrpc | jq '.result[0] .playerid')
 	echo $playerid 
 }
- 
+
+function kodistop()
+{
+
+ if [ $(playerid) != "null" ]; 
+then 
+
+	curl -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"Player.Stop","params":{"playerid":'"$(playerid)"'},"id":1}' http://kodi:@192.168.1.100:8080/jsonrpc
+	sleep 3
+
+fi
+
+}
+
 intent=$(echo $jsondata | jq '.intent.name')
 
-if [ $intent == '"KodiPlay"' ]
-then 
-	curl -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"Player.Stop","params":{"playerid":'"$(playerid)"'},"id":1}' http://kodi:@iszaTV.local:8080/jsonrpc
-	speak "Playing All Songs"	
-	curl -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"Player.Open","params":{ "item":{"directory":"/storage/songs" }},"id":1}' http://kodi:@iszaTV.local:8080/jsonrpc
-fi
 
 if [ $intent == '"GetTime"' ]
 then
@@ -42,37 +48,38 @@ fi
 
 if [ $intent == '"KodiNext"' ]
 then
-	curl -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"Player.Move","params":{"playerid":'"$(playerid)"',"direction":"right"},"id":1}' http://kodi:@iszaTV.local:8080/jsonrpc
+	curl -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"Player.Move","params":{"playerid":'"$(playerid)"',"direction":"right"},"id":1}' http://kodi:@192.168.1.100:8080/jsonrpc
 fi
 
 if [ $intent == '"KodiPrevious"' ]
 then
-	curl -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"Player.Move","params":{"playerid":'"$(playerid)"',"direction":"left"},"id":1}' http://kodi:@iszaTV.local:8080/jsonrpc
+	curl -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"Player.Move","params":{"playerid":'"$(playerid)"',"direction":"left"},"id":1}' http://kodi:@192.168.1.100:8080/jsonrpc
 fi
 
-if [ $intent == '"KodiPlayDemo"' ]
+if [ $intent == '"KodiPlayBEST"' ]
 then 
-	curl -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"Player.Stop","params":{"playerid":'"$(playerid)"'},"id":1}' http://kodi:@iszaTV.local:8080/jsonrpc
-	speak "Playing Demo Music"	
-	curl -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"Player.Open","params":{ "item":{"directory":"/storage/songs/demo" }},"id":1}' http://kodi:@iszaTV.local:8080/jsonrpc
+	kodistop
+	speak "Playing Favourite Songs"	
+	curl -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"Player.Open","params":{ "item":{"directory":"/storage/songs/best" }},"id":1}' http://kodi:@192.168.1.100:8080/jsonrpc
 fi
 
 if [ $intent == '"KodiOff"' ]
 then
-	curl -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"Player.Stop","params":{"playerid":'"$(playerid)"'},"id":1}' http://kodi:@iszaTV.local:8080/jsonrpc
+	kodistop
 	speak "Shutting down"		
-	curl -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"System.Shutdown","id":1}' http://kodi:@iszaTV.local:8080/jsonrpc
+       sleep 5
+	curl -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"System.Shutdown","id":1}' http://kodi:@192.168.1.100:8080/jsonrpc
 fi
 
 if [ $intent == '"KodiRestart"' ]
 then
-	curl -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"Player.Stop","params":{"playerid":'"$(playerid)"'},"id":1}' http://kodi:@iszaTV.local:8080/jsonrpc
+	kodistop
 	speak "Restarting"	
-	curl -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"System.Reboot","id":1}' http://kodi:@iszaTV.local:8080/jsonrpc
+	curl -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"System.Reboot","id":1}' http://kodi:@192.168.1.100:8080/jsonrpc
 fi
 
 if [ $intent == '"KodiStop"' ]
 then
-	curl -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"Player.Stop","params":{"playerid":'"$(playerid)"'},"id":1}' http://kodi:@iszaTV.local:8080/jsonrpc
+	kodistop
 	speak "Stopped Playing"
 fi
