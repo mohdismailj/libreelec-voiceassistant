@@ -12,6 +12,12 @@ function playerid()
 	echo $playerid 
 }
 
+function getplaying()
+{
+	file=$( curl -s -X POST -H "Content-Type: application/json" -d '{"jsonrpc": "2.0", "method": "Player.GetItem", "params": { "properties": ["file"], "playerid": 1 }, "id": 1}' http://kodi:@192.168.1.100:8080/jsonrpc | jq '.result .item .file')
+	echo $file 
+}
+
 function kodistop()
 {
 
